@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eu
+
+GITHUB_ENV=${HOME}/bin/deployment-get-environment
+
+ENV=dev
+
+# Get deployment environment
+if [ "$GITHUB_ENV" = staging ]; then
+  ENV=stag
+elif [ "$GITHUB_ENV" = production ]; then
+  ENV=prod
+elif [ "$GITHUB_ENV" = testing ]; then
+  ENV=test
+fi
+
+echo "$ENV"

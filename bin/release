@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -eu
+
+export AWS_REGION=${AWS_REGION:-'ap-northeast-1'}
+export CONFIG_ENV=${get_current_env:-dev}
+
+echo "### Setting env to '$CONFIG_ENV' ###"
+
+PACKAGE_NAME=${PACKAGE_NAME:-sls-build-artifact}
+PACKAGE_PATH="$HOME/$CONFIG_ENV/$AWS_REGION/$PACKAGE_NAME"
+
+echo "### Creating new build ###"
+
+if [ -n "$NPM_AUTH_TOKEN" ]; then
+    echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > "$HOME/.npmrc"
+    chmod 0600 "$HOME/.npmrc"
+fi
+
+npm install --production
+
+echo "### Build completed ###"
+
+echo "### Creating release package '$PACKAGE_PATH' ###"
+
+set +e
+OUTPUT=$(sh -c "serverless package --package $PACKAGE_PATH --stage=$CONFIG_ENV" 2>&1)
+SUCCESS=$?
+echo "$OUTPUT"
+set -e
+
+if [ "$SUCCESS" -ne 0 ]; then
+    echo "### Release failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+    exit "$SUCCESS"
+fi
+
+echo "### Success Release to '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+exit 0
+
