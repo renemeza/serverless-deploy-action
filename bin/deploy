@@ -7,6 +7,7 @@ SLS_VERSION=$(serverless -v)
 export CONFIG_ENV=${get_current_env:-dev}
 export AWS_REGION=${AWS_REGION:-'ap-northeast-1'}
 export SLS_DEBUG=*
+export CREATE_DOMAIN=${CREATE_DOMAIN:-'false'}
 
 PACKAGE_NAME=${PACKAGE_NAME:-sls-build-artifact}
 PACKAGE_PATH="$HOME/$CONFIG_ENV/$AWS_REGION/$PACKAGE_NAME"
@@ -14,6 +15,13 @@ PACKAGE_PATH="$HOME/$CONFIG_ENV/$AWS_REGION/$PACKAGE_NAME"
 echo "### Setting env to '$CONFIG_ENV' ###"
 
 echo "### Serverless version is: $SLS_VERSION ###"
+
+if [[ "$CREATE_DOMAIN" == 'true' ]]; then
+    echo "### Create custom domain ###"
+    npm install --silent
+    serverless create_domain --stage="$CONFIG_ENV"
+    sleep 5m
+fi
 
 echo "### Running serverless deploy for released package ###"
 echo "### Deploying package for region '$AWS_REGION' ###"
