@@ -3,7 +3,7 @@
 set -eu
 
 SLS_VERSION=$(serverless -v)
-CURRENT_ENV=get_current_env
+CURRENT_ENV=$(get_current_env)
 
 echo "### current deployment environment is '$CURRENT_ENV'"
 
