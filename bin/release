@@ -2,8 +2,12 @@
 
 set -eu
 
+CURRENT_ENV=$(get_current_env)
+
+echo "### current deployment environment is '$CURRENT_ENV'"
+
 export AWS_REGION=${AWS_REGION:-'ap-northeast-1'}
-export CONFIG_ENV=${get_current_env:-dev}
+export CONFIG_ENV=${CURRENT_ENV:-'dev'}
 
 echo "### Setting env to '$CONFIG_ENV' ###"
 
