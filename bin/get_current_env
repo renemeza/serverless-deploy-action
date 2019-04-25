@@ -4,6 +4,12 @@ set -eu
 
 GITHUB_ENV=${HOME}/bin/deployment-get-environment
 
+echo "### deployment environment: $GITHUB_ENV ###"
+
+if [ -z "$GITHUB_ENV" ]; then
+  echo "Deployment environment not set, using default environment 'dev'"
+fi
+
 ENV=dev
 
 # Get deployment environment
