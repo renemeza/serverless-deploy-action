@@ -2,7 +2,7 @@
 
 set -eu
 
-GITHUB_ENV=${HOME}/bin/deployment-get-environment
+GITHUB_ENV=$("$HOME"/bin/deployment-get-environment)
 
 echo "### deployment environment: $GITHUB_ENV ###"
 
