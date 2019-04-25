@@ -22,7 +22,20 @@ echo "### Serverless version is: $SLS_VERSION ###"
 if [[ "$CREATE_DOMAIN" == 'true' ]]; then
     echo "### Create custom domain ###"
     npm install --silent
-    serverless create_domain --stage="$CONFIG_ENV"
+    set +e
+    DOMAIN_OUTPUT=$(sh -c "serverless create_domain --stage=$CONFIG_ENV" 2>&1)
+    DOMAIN_SUCCESS=$?
+    echo "$DOMAIN_OUTPUT"
+    set -e
+
+    if [ "$DOMAIN_SUCCESS" -ne 0 ]; then
+        echo "### Custom domain creation failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+
+        # Create deployment failure status
+        ${HOME}/bin/deployment-create-status failure
+
+        exit "$DOMAIN_SUCCESS"
+    fi
     sleep 5m
 fi
 
