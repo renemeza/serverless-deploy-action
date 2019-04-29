@@ -2,19 +2,17 @@
 
 set -eu
 
+BASEDIR=$(dirname "$0")
+DEPLOYMENT_ENV=$("$BASEDIR"/deployment-get-environment)
 ENV=dev
 
-if [ -f "$HOME"/bin/deployment-get-environment ]; then
-  GITHUB_ENV=$("$HOME"/bin/deployment-get-environment)
-
-  # Get deployment environment
-  if [ "$GITHUB_ENV" = staging ]; then
-    ENV=stag
-  elif [ "$GITHUB_ENV" = production ]; then
-    ENV=prod
-  elif [ "$GITHUB_ENV" = testing ]; then
-    ENV=test
-  fi
+# Get deployment environment
+if [ "$DEPLOYMENT_ENV" = staging ]; then
+  ENV=stag
+elif [ "$DEPLOYMENT_ENV" = production ]; then
+  ENV=prod
+elif [ "$DEPLOYMENT_ENV" = testing ]; then
+  ENV=test
 fi
 
 echo "$ENV"
