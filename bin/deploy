@@ -2,8 +2,9 @@
 
 set -eu
 
+BASEDIR=$(dirname "$0")
 SLS_VERSION=$(serverless -v)
-CURRENT_ENV=$(get_current_env)
+CURRENT_ENV=$("${BASEDIR}"/get_current_env)
 
 echo "### current deployment environment is '$CURRENT_ENV'"
 

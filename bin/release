@@ -2,7 +2,8 @@
 
 set -eu
 
-CURRENT_ENV=$(get_current_env)
+BASEDIR=$(dirname "$0")
+CURRENT_ENV=$("${BASEDIR}"/get_current_env)
 
 echo "### current deployment environment is '$CURRENT_ENV'"
 
@@ -35,6 +36,10 @@ set -e
 
 if [ "$SUCCESS" -ne 0 ]; then
     echo "### Release failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+
+    # Create deployment failure status
+    ${HOME}/bin/deployment-create-status failure
+
     exit "$SUCCESS"
 fi
 
