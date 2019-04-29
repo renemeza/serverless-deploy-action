@@ -12,11 +12,11 @@ copy_files() {
 }
 
 if [ "$COPY_SCRIPTS_ONLY" = "true" ]; then
-    copy_files()
+    copy_files
     exit 0
 fi
 
 if [ "$COPY_SCRIPTS" = "true" ]; then
-    copy_files()
+    copy_files
 fi
 sh -c "$*"
