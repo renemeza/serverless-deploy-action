@@ -33,18 +33,24 @@ if [[ "$CREATE_DOMAIN" == 'true' ]]; then
         echo "### Custom domain creation failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
         # Create deployment failure status
-        ${HOME}/bin/deployment-create-status failure
+        "${BASEDIR}"/deployment-create-status failure
 
         exit "$DOMAIN_SUCCESS"
     fi
     sleep 5m
 fi
 
-echo "### Running serverless deploy for released package ###"
+PACKAGE=""
+
+if [ -f "$PACKAGE_PATH" ]; then
+    PACKAGE="--package=${PACKAGE_PATH}"
+    echo "### Running serverless deploy for released package ###"
+fi
+
 echo "### Deploying package for region '$AWS_REGION' ###"
 
 set +e
-OUTPUT=$(sh -c "serverless deploy --verbose --stage=${CONFIG_ENV} --package=${PACKAGE_PATH}" 2>&1)
+OUTPUT=$(sh -c "serverless deploy --verbose --stage=${CONFIG_ENV} ${PACKAGE}" 2>&1)
 SUCCESS=$?
 echo "$OUTPUT"
 set -e
@@ -53,7 +59,7 @@ if [ "$SUCCESS" -ne 0 ]; then
     echo "### Deployment failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
     # Create deployment failure status
-    ${HOME}/bin/deployment-create-status failure
+    "${BASEDIR}"/deployment-create-status failure
 
     exit "$SUCCESS"
 fi

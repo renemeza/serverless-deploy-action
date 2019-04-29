@@ -38,7 +38,7 @@ if [ "$SUCCESS" -ne 0 ]; then
     echo "### Release failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
     # Create deployment failure status
-    ${HOME}/bin/deployment-create-status failure
+    "${BASEDIR}"/deployment-create-status failure
 
     exit "$SUCCESS"
 fi
