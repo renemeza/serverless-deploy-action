@@ -8,6 +8,7 @@ COPY_SCRIPTS_DIR=${COPY_SCRIPTS_DIR:-"sls-deploy-action"}
 
 copy_files() {
     echo "### Copying scripts to ${HOME}/sls-scripts"
+    mkdir -p "${HOME}/${COPY_SCRIPTS_DIR}"
     cp -R /usr/local/bin/* "${HOME}/${COPY_SCRIPTS_DIR}/."
 }
 
