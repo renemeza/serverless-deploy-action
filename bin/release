@@ -18,8 +18,8 @@ PACKAGE_PATH="$HOME/$CONFIG_ENV/$AWS_REGION/$PACKAGE_NAME"
 echo "### Creating new build ###"
 
 if [ -n "$NPM_AUTH_TOKEN" ]; then
-    echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > "$HOME/.npmrc"
-    chmod 0600 "$HOME/.npmrc"
+  echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > "$HOME/.npmrc"
+  chmod 0600 "$HOME/.npmrc"
 fi
 
 npm install --production
@@ -35,12 +35,12 @@ echo "$OUTPUT"
 set -e
 
 if [ "$SUCCESS" -ne 0 ]; then
-    echo "### Release failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+  echo "### Release failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
-    # Create deployment failure status
-    "${BASEDIR}"/deployment-create-status failure
+  # Create deployment failure status
+  "${BASEDIR}"/deployment-create-status failure
 
-    exit "$SUCCESS"
+  exit "$SUCCESS"
 fi
 
 echo "### Success Release to '$CONFIG_ENV' environment and '$AWS_REGION' region ###"

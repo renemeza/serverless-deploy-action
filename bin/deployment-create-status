@@ -3,6 +3,6 @@
 set -eu
 
 if [ -f "${HOME}"/bin/deployment-create-status ]
-    echo "### Creating deployment status $1"
-    "${HOME}"/bin/deployment-create-status "$1"
+  echo "### Creating deployment status $1"
+  "${HOME}"/bin/deployment-create-status "$1"
 fi

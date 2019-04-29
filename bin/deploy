@@ -21,30 +21,30 @@ echo "### Setting env to '$CONFIG_ENV' ###"
 echo "### Serverless version is: $SLS_VERSION ###"
 
 if [[ "$CREATE_DOMAIN" == 'true' ]]; then
-    echo "### Create custom domain ###"
-    npm install --silent
-    set +e
-    DOMAIN_OUTPUT=$(sh -c "serverless create_domain --stage=$CONFIG_ENV" 2>&1)
-    DOMAIN_SUCCESS=$?
-    echo "$DOMAIN_OUTPUT"
-    set -e
+  echo "### Create custom domain ###"
+  npm install --silent
+  set +e
+  DOMAIN_OUTPUT=$(sh -c "serverless create_domain --stage=$CONFIG_ENV" 2>&1)
+  DOMAIN_SUCCESS=$?
+  echo "$DOMAIN_OUTPUT"
+  set -e
 
-    if [ "$DOMAIN_SUCCESS" -ne 0 ]; then
-        echo "### Custom domain creation failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+  if [ "$DOMAIN_SUCCESS" -ne 0 ]; then
+    echo "### Custom domain creation failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
-        # Create deployment failure status
-        "${BASEDIR}"/deployment-create-status failure
+    # Create deployment failure status
+    "${BASEDIR}"/deployment-create-status failure
 
-        exit "$DOMAIN_SUCCESS"
-    fi
-    sleep 5m
+    exit "$DOMAIN_SUCCESS"
+  fi
+  sleep 5m
 fi
 
 PACKAGE=""
 
 if [ -f "$PACKAGE_PATH" ]; then
-    PACKAGE="--package=${PACKAGE_PATH}"
-    echo "### Running serverless deploy for released package ###"
+  PACKAGE="--package=${PACKAGE_PATH}"
+  echo "### Running serverless deploy for released package ###"
 fi
 
 echo "### Deploying package for region '$AWS_REGION' ###"
@@ -56,12 +56,12 @@ echo "$OUTPUT"
 set -e
 
 if [ "$SUCCESS" -ne 0 ]; then
-    echo "### Deployment failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
+  echo "### Deployment failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
-    # Create deployment failure status
-    "${BASEDIR}"/deployment-create-status failure
+  # Create deployment failure status
+  "${BASEDIR}"/deployment-create-status failure
 
-    exit "$SUCCESS"
+  exit "$SUCCESS"
 fi
 
 echo "### Success Deployment to '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
