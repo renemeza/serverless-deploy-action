@@ -24,12 +24,12 @@ RUN apk add --no-cache \
 
 RUN npm i -g serverless@1.39.0
 
-ENV PATH="/scripts/bin:${PATH}"
-COPY bin /scripts/bin
+ENV PATH="/sls-scripts:${PATH}"
+COPY bin /sls-scripts
 
-RUN chmod +x /scripts/bin/get_current_env && \
-    chmod +x /scripts/bin/deploy && \
-    chmod +x /scripts/bin/release
+RUN chmod +x /sls-scripts/get_current_env && \
+    chmod +x /sls-scripts/deploy && \
+    chmod +x /sls-scripts/release
 
 COPY entrypoint.sh /entrypoint.sh
 
