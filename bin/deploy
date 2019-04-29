@@ -10,7 +10,7 @@ echo "### current deployment environment is '$CURRENT_ENV'"
 
 export CONFIG_ENV=${CURRENT_ENV:-'dev'}
 export AWS_REGION=${AWS_REGION:-'ap-northeast-1'}
-export SLS_DEBUG=*
+export SLS_DEBUG="*"
 export CREATE_DOMAIN=${CREATE_DOMAIN:-'false'}
 
 PACKAGE_NAME=${PACKAGE_NAME:-sls-build-artifact}
@@ -20,7 +20,7 @@ echo "### Setting env to '$CONFIG_ENV' ###"
 
 echo "### Serverless version is: $SLS_VERSION ###"
 
-if [[ "$CREATE_DOMAIN" == 'true' ]]; then
+if [ "$CREATE_DOMAIN" = "true" ]; then
   echo "### Create custom domain ###"
   npm install --silent
   set +e
@@ -33,7 +33,7 @@ if [[ "$CREATE_DOMAIN" == 'true' ]]; then
     echo "### Custom domain creation failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
     # Create deployment failure status
-    "${BASEDIR}"/deployment-create-status failure
+    "${BASEDIR}"/deployment_create_status failure
 
     exit "$DOMAIN_SUCCESS"
   fi
@@ -59,7 +59,7 @@ if [ "$SUCCESS" -ne 0 ]; then
   echo "### Deployment failed, for '$CONFIG_ENV' environment and '$AWS_REGION' region ###"
 
   # Create deployment failure status
-  "${BASEDIR}"/deployment-create-status failure
+  "${BASEDIR}"/deployment_create_status failure
 
   exit "$SUCCESS"
 fi

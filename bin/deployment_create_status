@@ -2,7 +2,7 @@
 
 set -eu
 
-if [ -f "${HOME}"/bin/deployment-create-status ]
+if [ -f "${HOME}"/bin/deployment-create-status ]; then
   echo "### Creating deployment status $1"
   "${HOME}"/bin/deployment-create-status "$1"
 fi
