@@ -36,7 +36,7 @@ action "Init deployment" {
 
 action "Release" {
   needs = "Init deployment"
-  uses = "getndazn/serverless-action"
+  uses = "renemeza/sls-deploy-action@master"
   args = "release"
   secrets = [
     "AWS_ACCESS_KEY_ID",
@@ -50,7 +50,7 @@ action "Release" {
 
 action "Deploy" {
   needs = "Release"
-  uses = "getndazn/serverless-action"
+  uses = "renemeza/sls-deploy-action@master"
   args = "deploy"
   secrets = [
     "AWS_ACCESS_KEY_ID",
