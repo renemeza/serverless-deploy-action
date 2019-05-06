@@ -37,7 +37,10 @@ if [ "$CREATE_DOMAIN" = "true" ]; then
 
     exit "$DOMAIN_SUCCESS"
   fi
-  sleep 5m
+  if [ "$CREATE_DOMAIN_SLEEP" = "true" ]; then
+    CREATE_DOMAIN_SLEEP_TIMEOUT=${CREATE_DOMAIN_SLEEP_TIMEOUT:-"5m"}
+    sleep "$CREATE_DOMAIN_SLEEP_TIMEOUT"
+  fi
 fi
 
 PACKAGE=""
